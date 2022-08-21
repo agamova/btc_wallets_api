@@ -29,6 +29,7 @@ MarkupSafe==2.1.1
 openapi-codec==1.3.2
 packaging==21.3
 prompt-toolkit==3.0.30
+psycopg2-binary==2.8.5
 py-moneyed==2.0
 pyparsing==3.0.9
 python-crontab==2.6.0

@@ -21,12 +21,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'i(89k+@19adjqzuydtmki-(68+o&9&40urd^2#x!qhn4*+pz=%'
+SECRET_KEY = os.environ.get('SECRET_KEY', default='abc')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', default='*').split(',')
 
 
 # Application definition
@@ -81,8 +80,12 @@ WSGI_APPLICATION = 'btc_wallets.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.environ.get('DB_ENGINE', default='django.db.backends.postgresql'),
+        'NAME': os.environ.get('DB_NAME', default='postgres'),
+        'USER': os.environ.get('POSTGRES_USER', default='postgres'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='postgres'),
+        'HOST': os.environ.get('DB_HOST', default='db'),
+        'PORT': os.environ.get('DB_PORT', default='5432')
     }
 }
 
@@ -138,19 +141,19 @@ REST_FRAMEWORK = {
     ]
 }
 
-EXCHANGE_API_APP_ID = '11afaf6f8e49432fa07d34a90fb945db'
+EXCHANGE_API_APP_ID = os.environ.get('EXCHANGE_API_APP_ID')
 EXCHANGE_API_URL = 'https://openexchangerates.org/api/latest.json'
 FAKE_RATE = '0.000047'
 
-CELERY_BROKER_URL = 'redis://127.0.0.1:16379/0'
-CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND')
 
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:16379/1',
+        'LOCATION': 'redis://redis:6379',
         'TIMEOUT': None
     }
 }
-CELERY_CACHE_BACKEND = 'default'
+CELERY_CACHE_BACKEND = os.environ.get('CELERY_CACHE_BACKEND')
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
