@@ -259,3 +259,12 @@ ______
 
 
 -----
+
+### Installation instructions
+
+1. git clone https://github.com/agamova/btc_wallets_api.git
+2. cd btc_wallets_api
+3. cp .env.template .env
+4. docker-compose up --build
+
+Service will be available at 127.0.0.1:8000
